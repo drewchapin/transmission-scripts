@@ -25,29 +25,15 @@ $path = realpath(dirname(__FILE__)) . "/transmission.json";
 $settings = json_decode(file_get_contents($path));
 if( json_last_error() != JSON_ERROR_NONE )
 	die("Error reading settings file.");
-$showrss_sync = isset($settings->showrss_sync) ? strtotime($settings->showrss_sync) : null;
 
-// Get RSS feed
-$showrss_feed = file_get_contents($settings->showrss_feed);
-$xml = new SimpleXMLElement($showrss_feed);
-
-// Establish connection to Transmission RPC web interface
 $rpc = new TransmissionRPC($settings->server,$settings->port,$settings->username,$settings->password);
-
-// Loop through each torrent and add to download queue
-foreach( $xml->channel->item as $show )
+foreach( $rpc->getSessionStats(array("id","name","isFinished")) as $torrent )
 {
-	if( !isset($showrss_sync) || strtotime($show->pubDate) > $showrss_sync )
+	if( $torrent["isFinished"] === true )
 	{
-		echo "Downloading " . $show->title . PHP_EOL;
-		$rpc->addTorrent($show->link);
+		if( $rpc->removeTorrent($torrent["id"]) )
+			echo "Removed " . $torrent["name"] . PHP_EOL;
 	}
 }
-
-// Update last run time
-$settings->showrss_sync = date("Y-m-d H:i:s",time());
-$settings = json_encode($settings,JSON_PRETTY_PRINT);
-if( json_last_error() == JSON_ERROR_NONE )
-	file_put_contents($path,$settings);
 
 ?>

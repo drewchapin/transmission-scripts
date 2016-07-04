@@ -1,0 +1,8 @@
+{
+    "username": "<username>",
+    "password": "<password>",
+    "server": "<server>",
+    "port": 9091,
+    "showrss_feed": "http:\/\/showrss.info\/user\/<user_id>.rss?magnets=true&namespaces=true&name=clean&quality=null&re=null",
+    "showrss_sync": "2016-07-04 04:20:19"
+}

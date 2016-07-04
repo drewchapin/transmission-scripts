@@ -1,8 +1,0 @@
-{
-    "username": "<transmission RPC username>",
-    "password": "<transmission RPC password>",
-    "server": "<transmission RPC server or ip>",
-    "port": 9091,
-    "feed": "http:\/\/showrss.info\/user\/xxxxx.rss?magnets=true&namespaces=true&name=clean&quality=null&re=null",
-    "last_run": "2016-06-20 19:00:06"
-}

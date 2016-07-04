@@ -105,7 +105,7 @@ class TransmissionRPC
 	public function removeTorrent( $ids )
 	{
 		$request = array( "method" => "torrent-remove", "arguments" => array("ids"=>array()) );
-		if( is_array($id) )
+		if( is_array($ids) )
 			$request["arguments"]["ids"] = $ids;
 		else
 			array_push($request["arguments"]["ids"],$ids);

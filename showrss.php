@@ -31,7 +31,15 @@ if( json_last_error() != JSON_ERROR_NONE )
 $showrss_sync = isset($settings->showrss_sync) ? strtotime($settings->showrss_sync) : null;
 
 // Get RSS feed
-$showrss_feed = file_get_contents($settings->showrss_feed);
+$showrss_feed = false;
+try
+{
+	$showrss_feed = file_get_contents($settings->showrss_feed);
+}
+catch( Exception $ex )
+{
+	die("Error " . $ex->code . ": " . $ex->message);
+}
 if( $showrss_feed === false )
 	die("Failed to fetch RSS feed.");
 $xml = new SimpleXMLElement($showrss_feed);

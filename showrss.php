@@ -22,7 +22,7 @@ require_once("transmission-rpc.class.php");
 
 // Read settings
 $path = __DIR__ . "/transmission.json";
-$settings = file_get_contents($path);
+$settings = @file_get_contents($path);
 if( $settings === false )
 	die("Error reading settings file.");
 $settings = json_decode($settings);
@@ -31,15 +31,7 @@ if( json_last_error() != JSON_ERROR_NONE )
 $showrss_sync = isset($settings->showrss_sync) ? strtotime($settings->showrss_sync) : null;
 
 // Get RSS feed
-$showrss_feed = false;
-try
-{
-	$showrss_feed = file_get_contents($settings->showrss_feed);
-}
-catch( Exception $ex )
-{
-	die("Error " . $ex->code . ": " . $ex->message);
-}
+$showrss_feed = @file_get_contents($settings->showrss_feed);
 if( $showrss_feed === false )
 	die("Failed to fetch RSS feed.");
 $xml = new SimpleXMLElement($showrss_feed);

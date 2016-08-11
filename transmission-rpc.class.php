@@ -1,21 +1,21 @@
 <?php
 
-/*******************************************************************************
- * Copyright (C) 2016 - Drew Chapin <druciferre@gmail.com>                     *
- *                                                                             *
- * This program is free software: you can redistribute it and/or modify        *
- * it under the terms of the GNU General Public License as published by        *
- * the Free Software Foundation, either version 3 of the License, or           *
- * (at your option) any later version.                                         *
- *                                                                             *
- * This program is distributed in the hope that it will be useful,             *
- * but WITHOUT ANY WARRANTY; without even the implied warranty of              *
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               *
- * GNU General Public License for more details.                                *
- *                                                                             *
- * You should have received a copy of the GNU General Public License           *
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.       *
- ******************************************************************************/
+/***************************************************************************
+ * Copyright (C) 2016 - Drew Chapin <druciferre@gmail.com>                 *
+ *                                                                         *
+ * This program is free software: you can redistribute it and/or modify    *
+ * it under the terms of the GNU General Public License as published by    *
+ * the Free Software Foundation, either version 3 of the License, or       *
+ * (at your option) any later version.                                     *
+ *                                                                         *
+ * This program is distributed in the hope that it will be useful,         *
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of          *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the           *
+ * GNU General Public License for more details.                            *
+ *                                                                         *
+ * You should have received a copy of the GNU General Public License       *
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.   *
+ **************************************************************************/
 
 class TransmissionRPC
 {
@@ -57,10 +57,12 @@ class TransmissionRPC
         curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
         curl_setopt($ch,CURLOPT_VERBOSE,0);
         curl_setopt($ch,CURLOPT_HEADER,1);
-        curl_setopt($ch,CURLOPT_USERPWD,$this->username.":".$this->password);
+		$userpwd = $this->username . ":" . $this->password;
+        curl_setopt($ch,CURLOPT_USERPWD,$userpwd);
         $request_headers = array("Content-Length: ".strlen($request_body));
 		if( isset($this->sessionID) )
-			array_push($request_headers,"X-Transmission-Session-Id: ".$this->sessionID);
+			array_push($request_headers,"X-Transmission-Session-Id: "
+				.$this->sessionID);
         curl_setopt($ch,CURLOPT_HTTPHEADER,$request_headers);
         $raw_response = curl_exec($ch);
         $status_code = curl_getinfo($ch,CURLINFO_HTTP_CODE);
@@ -92,7 +94,10 @@ class TransmissionRPC
     }
     public function getSessionStats( $fields )
     {
-		$request = array("method"=>"torrent-get","arguments"=>array("fields"=>array()));
+		$request = array(
+			"method" => "torrent-get",
+			"arguments" => array("fields"=>array())
+		);
 		if( is_array($fields) )
 			$request["arguments"]["fields"] = $fields;
 		else
@@ -104,7 +109,10 @@ class TransmissionRPC
     }
 	public function removeTorrent( $ids )
 	{
-		$request = array( "method" => "torrent-remove", "arguments" => array("ids"=>array()) );
+		$request = array( 
+			"method" => "torrent-remove", 
+			"arguments" => array("ids"=>array()) 
+		);
 		if( is_array($ids) )
 			$request["arguments"]["ids"] = $ids;
 		else

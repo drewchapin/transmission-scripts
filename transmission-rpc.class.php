@@ -36,7 +36,7 @@ class TransmissionRPC
 				throw new Exception("Unable to authenticate with server.");
 		}
 	}
-	public function addTorrent( $filename )
+	public function addTorrent( $filename, $download_dir = "", $paused = false )
 	{
 		$request = array("method"=>"torrent-add","arguments"=>array());
 		if( is_readable((string)$filename) )
@@ -46,6 +46,9 @@ class TransmissionRPC
 		}
 		else
 			$request["arguments"]["filename"] = (string)$filename;
+		if( isset($download_dir) )
+			$request["arguments"]["download-dir"] = (string)$download_dir;
+		$request["arguments"]["paused"] = (bool)$paused;
 		$response = $this->curl(json_encode($request));
 		return $response["status_code"] == 200;
 	}

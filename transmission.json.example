@@ -3,6 +3,13 @@
     "password": "<password>",
     "server": "<server>",
     "port": 9091,
-    "showrss_feed": "http:\/\/showrss.info\/user\/<user_id>.rss?magnets=true&namespaces=true&name=clean&quality=null&re=null",
-    "showrss_sync": "2016-07-04 04:20:19"
+    "showrss": {
+		"feed_url": "http:\/\/showrss.info\/user\/<user_id>.rss?magnets=true&namespaces=true&name=clean&quality=null&re=null",
+		"download_dir": "/srv/media/tv",
+		"notification": {
+			"email_addr": "drew@drewchapin.com",
+			"subject": "ShowRSS Downloading"
+		},
+		"last_sync": "2017-11-23 00:00:00"
+	}
 }
